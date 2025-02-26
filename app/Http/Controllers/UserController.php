@@ -1,54 +1,70 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\api;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Requests\UserRegisterRequest;
+use App\Http\Requests\UserLoginRequest;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
-class UserController extends Controller
-{
-    public function index(){
-        return response()->json(Customer::all(),200);
-    }
+class UserController extends ResponseController {
 
-    public function show($id){
-        $customer = Customer::find($id);
-        if (!$customer){
-            return response()->json(['message' => 'Customer not found'],404);
-        }
-        return response()->json($customer,200);
-    }
+    public function register( UserRegisterRequest $request ) {
 
-    public function store(Request $request){
-        $request->validate([
-            'people_amount' => 'required|integer',
-            'tabel_id' => 'required|integer'
+        $request->validated();
+
+        $user = User::create([
+
+            "name" => $request["name"],
+            "email" => $request["email"],
+            "password" => bcrypt( $request["password"])
         ]);
 
-        $customer = Customer::create($request->all());
-        return response()->json($customer,201);
-}
-
-public function update(Request $request, $id){
-    $customer = Customer::find($id);
-    if (!$customer){
-        return response()->json(['message' => 'Customer not found'],404);
+        return $this->sendResponse( $user->name, "Sikeres regisztráció");
     }
-    
-    $request->validate([
-        'people_amount' => 'required|integer',
-        'tabel_id' => 'integer|exists:tabels,id'
-    ]);
 
-    $customer->update($request->all());
-    return response()->json($customer,200);
-}
+    public function login( UserLoginRequest $request ) {
 
-public function delete($id){
-    $customer = Customer::find($id);
-    if (!$customer){
-        return response()->json(['message' => 'Customer not found'],404);
+        $request->validated();
+
+        $credentials = $request->only( "email", "password" );
+
+        if( !Auth::attempt( $credentials ) ) {
+
+            return $this->sendError( "Hiba", "Hiba a bejelentkezésben");
+        }
+
+        $user = $request->user();
+
+        $user->tokens()->delete();
+
+        $token = $user->createToken( "auth_token" )->plainTextToken;
+
+        return $this->sendResponse( $token, "Sikeres bejelentkezés");
     }
-    $customer->delete();
-    return response()->json(['message' => 'Customer deleted'],200);
-}
+    public function logout() {
+
+        auth( "sanctum" )->user()->currentAccessToken()->delete();
+        $name = auth( "sanctum" )->user()->name;
+
+        return $this->sendResponse( $name, "Sikeres kijelentkezés");
+    }
+
+    public function getUsers() {
+
+        $users = User::all();
+
+        return $users;
+    }
+
+    public function getTokens() {
+
+        $tokens = DB::table( "personal_access_tokens" )->get();
+
+        return $tokens;
+    }
 }
