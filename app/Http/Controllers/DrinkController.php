@@ -11,7 +11,9 @@ class DrinkController extends Controller
     }
 
     public function show(Drinks $drinks){
+        
         return $drinks;
+        
     }
 
     public function store(Request $request){
