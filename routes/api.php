@@ -7,37 +7,35 @@ use App\Http\Controllers\TableController;
 use App\Http\Controllers\TypeController;
 use App\Http\Controllers\DrinkController;
 use App\Http\Controllers\MenuController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\api\UserController;
 
+Route::post('/register', [UserController::class, 'register']);
+Route::post('/login', [UserController::class, 'login']);
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
+Route::middleware('auth:sanctum')->group(function () {
 
+    Route::post('/logout', [UserController::class, 'logout']);
+    Route::get('/users', [UserController::class, 'getUsers']);
+    Route::post('/tokens', [UserController::class, 'getTokens']);
 
-
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    Route::get('/customer', [CustomerController::class, 'index']);
+    Route::get('/customers', [CustomerController::class, 'index']);
     Route::post('/customer', [CustomerController::class, 'store']);
     Route::get('/customer/{customer}', [CustomerController::class, 'show']);
 
-    Route::get('/table', [TableController::class, 'index']);
+    Route::get('/tables', [TableController::class, 'index']);
     Route::post('/table', [TableController::class, 'store']);
     Route::get('/table/{table}', [TableController::class, 'show']);
 
-    Route::get('/type', [TypeController::class, 'index']);
+    Route::get('/types', [TypeController::class, 'index']);
     Route::post('/type', [TypeController::class, 'store']);
     Route::get('/type/{type}', [TypeController::class, 'show']);
 
-    Route::get('/drink', [DrinkController::class, 'index']);
+    Route::get('/drinks', [DrinkController::class, 'index']);
     Route::post('/drink', [DrinkController::class, 'store']);
     Route::get('/drink/{drink}', [DrinkController::class, 'show']);
 
-    Route::get('/menu', [MenuController::class, 'index']);
+    Route::get('/menus', [MenuController::class, 'index']);
     Route::post('/menu', [MenuController::class, 'store']);
     Route::get('/menu/{menu}', [MenuController::class, 'show']);
 
-    Route::post('/register', [UserController::class, 'register']);
-    Route::post('/logout', [UserController::class, 'logout']);
-    Route::post('/login', [UserController::class, 'login']);
 });

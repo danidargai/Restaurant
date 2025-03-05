@@ -6,10 +6,12 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\UserRegisterRequest;
 use App\Http\Requests\UserLoginRequest;
+use App\Http\Controllers\ResponseController;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Customer;
+use App\Models\Table;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
-use Carbon\Carbon;
 
 class UserController extends ResponseController
 {
@@ -52,10 +54,11 @@ class UserController extends ResponseController
     public function logout()
     {
 
-        auth("sanctum")->user()->currentAccessToken()->delete();
-        $name = auth("sanctum")->user()->name;
+        $user = auth("sanctum")->user();
+        $user->currentAccessToken()->delete();
+        // $name = auth("sanctum")->user()->name;
 
-        return $this->sendResponse($name, "Sikeres kijelentkezés");
+        return $this->sendResponse($user->name, "Sikeres kijelentkezés");
     }
 
     public function getUsers()

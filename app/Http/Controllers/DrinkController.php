@@ -6,22 +6,28 @@ use Illuminate\Http\Request;
 use App\Models\Drinks;
 class DrinkController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         return Drinks::all();
     }
 
-    public function show(Drinks $drinks){
+    public function show(Drinks $drinks)
+    {
+
         return $drinks;
+
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
         return Drinks::create($request->validate([
             'name' => 'required',
             'price' => 'required',
         ]));
     }
 
-    public function update(Request $request, Drinks $drinks){
+    public function update(Request $request, Drinks $drinks)
+    {
         $drinks->update($request->validate([
             'name' => 'required',
             'price' => 'required',
@@ -29,7 +35,8 @@ class DrinkController extends Controller
         return $drinks;
     }
 
-    public function destroy(Drinks $drinks){
+    public function destroy(Drinks $drinks)
+    {
         $drinks->delete();
         return $drinks;
     }

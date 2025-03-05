@@ -4,9 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use App\Models\Menu;
-
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -18,7 +16,7 @@ return new class extends Migration
             $table->integer('price');
             $table->foreignid('type_id');
             $table->foreignid('drinks_id');
-            
+
         });
     }
 
