@@ -3,13 +3,19 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Customer extends Model
 {
     use HasFactory;
-    protected $filleable = ['people_amount', 'tabel_id'];
 
-    public function tabel(){
-        return $this->belongsTo(Tabel::class, 'table_id');
+    protected $fillable = ['people_amount', 'table_id'];
+
+
+    public function table()
+    {
+        return $this->hasMany(Table::class);
     }
+
 }
+
+
