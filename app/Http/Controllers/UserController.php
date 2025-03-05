@@ -11,9 +11,11 @@ use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
-class UserController extends ResponseController {
+class UserController extends ResponseController
+{
 
-    public function register( UserRegisterRequest $request ) {
+    public function register(UserRegisterRequest $request)
+    {
 
         $request->validated();
 
@@ -21,49 +23,53 @@ class UserController extends ResponseController {
 
             "name" => $request["name"],
             "email" => $request["email"],
-            "password" => bcrypt( $request["password"])
+            "password" => bcrypt($request["password"])
         ]);
 
-        return $this->sendResponse( $user->name, "Sikeres regisztráció");
+        return $this->sendResponse($user->name, "Sikeres regisztráció");
     }
 
-    public function login( UserLoginRequest $request ) {
+    public function login(UserLoginRequest $request)
+    {
 
         $request->validated();
 
-        $credentials = $request->only( "email", "password" );
+        $credentials = $request->only("email", "password");
 
-        if( !Auth::attempt( $credentials ) ) {
+        if (!Auth::attempt($credentials)) {
 
-            return $this->sendError( "Hiba", "Hiba a bejelentkezésben");
+            return $this->sendError("Hiba", "Hiba a bejelentkezésben");
         }
 
         $user = $request->user();
 
         $user->tokens()->delete();
 
-        $token = $user->createToken( "auth_token" )->plainTextToken;
+        $token = $user->createToken("auth_token")->plainTextToken;
 
-        return $this->sendResponse( $token, "Sikeres bejelentkezés");
+        return $this->sendResponse($token, "Sikeres bejelentkezés");
     }
-    public function logout() {
+    public function logout()
+    {
 
-        auth( "sanctum" )->user()->currentAccessToken()->delete();
-        $name = auth( "sanctum" )->user()->name;
+        auth("sanctum")->user()->currentAccessToken()->delete();
+        $name = auth("sanctum")->user()->name;
 
-        return $this->sendResponse( $name, "Sikeres kijelentkezés");
+        return $this->sendResponse($name, "Sikeres kijelentkezés");
     }
 
-    public function getUsers() {
+    public function getUsers()
+    {
 
         $users = User::all();
 
         return $users;
     }
 
-    public function getTokens() {
+    public function getTokens()
+    {
 
-        $tokens = DB::table( "personal_access_tokens" )->get();
+        $tokens = DB::table("personal_access_tokens")->get();
 
         return $tokens;
     }
