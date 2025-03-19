@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Menu;
+use App\Models\Type;
+use App\Models\Drinks;
 
 
 class MenuController extends Controller
@@ -11,9 +13,10 @@ class MenuController extends Controller
     public function store(Request $request){
         return Menu::create($request->validate([
             'name' => 'required',
-            'price' => 'required',
             'type_id' => 'required',
             'drinks_id' => 'required',
+            
+            
         ]));
     }
 
@@ -22,8 +25,6 @@ class MenuController extends Controller
     }
     public function show(Menu $menu){
         $menu->update($request->validate([
-            'name' => 'required',
-            'price' => 'required',
             'type_id' => 'required',
             'drinks_id' => 'required',
         ]));

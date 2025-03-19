@@ -15,7 +15,7 @@ class Customer extends Model
     {
         return $this->hasMany(Table::class);
     }
-
+    public $timestamps = false;
 }
 
 

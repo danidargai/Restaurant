@@ -7,12 +7,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Type extends Model
 {
     use HasFactory;
-    protected $fillable = ['soups','desserts'];
+    protected $fillable = ['name', 'price', ];
 
 
 
 public function type_items() {
     return $this->hasMany(Menu::class);
 }
-
+public $timestamps = false;
 }

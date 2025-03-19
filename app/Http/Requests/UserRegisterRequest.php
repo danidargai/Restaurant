@@ -8,6 +8,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Validation\Rules;
 
 
+
 class UserRegisterRequest extends FormRequest
 {
     /**
@@ -30,7 +31,6 @@ class UserRegisterRequest extends FormRequest
             // name, email, password
             "name" => "required|max:10|unique:users,name",
             "email" => "required|email|unique:users,email",
-            "city" => "required",
             "password" => [
                             "required",
                             "min:8",
@@ -49,7 +49,6 @@ class UserRegisterRequest extends FormRequest
             "name.unique" => "Létező név",
             "email.required" => "Email nem lehet üres",
             "email.unique" => "Létező email",
-            "city.required" => "Város név nem lehet üres",
             "password.required" => "Jelszó nem lehet üres",
             "password.min" => "Túl rövid jelszó",
             "password.regex" => "A jelszzónak tartalmazia kell kisbetűt, nagybetűt és számot",

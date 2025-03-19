@@ -7,14 +7,18 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Menu extends Model
 {
    use HasFactory;
-   protected $fillable =['name', 'price', 'type_id', 'drinks_id',]; 
+   protected $fillable =['type_id', 'drinks_id',]; 
 
 
-public function type() {
-    return $this->hasMany(Type::class);
-}
+   public function type()
+   {
+       return $this->belongsTo(Type::class, 'type_id');
+   }
 
-public function drinks() {
-    return $this->hasMany(Drinks::class);
-}
+   public function drinks()
+   {
+       return $this->belongsTo(Drinks::class, 'drinks_id');
+   }
+
+public $timestamps = false;
 }

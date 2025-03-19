@@ -12,11 +12,8 @@ return new class extends Migration {
     {
         Schema::create('menu', function (Blueprint $table) {
             $table->id();
-            $table->String('name');
-            $table->integer('price');
-            $table->foreignid('type_id');
-            $table->foreignid('drinks_id');
-
+            $table->foreignId('type_id')->constrained()->onDelete('cascade'); // Kapcsolat a types táblával
+            $table->foreignId('drinks_id')->constrained()->onDelete('cascade'); // Kapcsolat a drinks táblával
         });
     }
 

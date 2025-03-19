@@ -13,8 +13,9 @@ class TypeController extends Controller
 
     public function store(Request $request){
         return Type::create($request->validate([
-            'soups' => 'required',
-            'desserts' => 'required',
+            'name' => 'required',
+            'price' => 'required',
+        
         ]));
     }
 
@@ -23,8 +24,8 @@ class TypeController extends Controller
     }
     public function update(Request $request, Type $type){
         $type->update($request->validate([
-            'soups' => 'required',
-            'desserts' => 'required',
+            
+            'price' => 'required',
         ]));
         return $type;
     }

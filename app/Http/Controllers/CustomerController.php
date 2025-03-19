@@ -8,7 +8,7 @@ use App\Models\Customer;
 class CustomerController extends Controller
 {
     public function index(){
-        return Customer::with('table')->get();
+        return Customer::all();
     }
 
     public function store(Request $request){

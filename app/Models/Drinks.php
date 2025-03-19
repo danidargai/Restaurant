@@ -19,4 +19,6 @@ class Drinks extends Model
     {
         return $this->hasMany(Menu::class);
     }
+
+    public $timestamps = false;
 }

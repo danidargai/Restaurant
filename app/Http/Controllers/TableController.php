@@ -7,7 +7,7 @@ use App\Models\Table;
 class TableController extends Controller
 {
     public function index(){
-        return Table::with('customers')->get();
+       return Table::all();
     }   
 
     public function store(Request $request){
@@ -32,4 +32,10 @@ class TableController extends Controller
     public function destroy(Table $table){
         return $table->delete();
     }
+    public function roles (){
+        return $this->belongsToMany( Table::class); 
+    }
+
+
+    
 }

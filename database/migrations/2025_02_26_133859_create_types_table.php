@@ -12,8 +12,9 @@ return new class extends Migration {
     {
         Schema::create('types', function (Blueprint $table) {
             $table->id();
-            $table->string('soups');
-            $table->string('desserts');
+            $table->string('name');
+            $table->integer('price');
+           
 
         });
     }
